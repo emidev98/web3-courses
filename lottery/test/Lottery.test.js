@@ -28,8 +28,9 @@ describe('Lottery',()=>{
         assert.ok(lottery?.options?.address)
     })
 
-    it('alllows one account to enter', async() => {
-        await lottery.methods
+    it('allows one account to enter', async() => {
+        await lottery
+            .methods
             .enter()
             .send({
                 from : accounts[0],
@@ -44,9 +45,10 @@ describe('Lottery',()=>{
         assert.strictEqual(1, players.length)
     })
 
-    it('alllows multiple account to enter', async() => {
+    it('allows multiple account to enter', async() => {
         for (const account of accounts){
-            await lottery.methods
+            await lottery
+                .methods
                 .enter()
                 .send({
                     from : account,
@@ -64,4 +66,57 @@ describe('Lottery',()=>{
         }
     })
 
+    it('requires a minimum amount of ether to enter', async() => {
+        try{
+            await lottery
+                .methods
+                .enter()
+                .send({
+                    from : accounts[0],
+                    value : 0
+                })
+
+            assert(false);
+        }
+        catch(err) {
+            assert(err)
+        }
+    })
+
+    it('only manager can pick winner', async() => {
+        try{
+            await lottery
+                .methods
+                .pickWinner()
+                .send({
+                    from : accounts[1]
+                })
+
+            assert(false);
+        }
+        catch(err) {
+            assert(err)
+        }
+    })
+
+    it('sends money to the winner and resets the players array', async() => {
+        await lottery.methods.enter().send({
+            from: accounts[0],
+            value: web3.utils.toWei('2', 'ether')
+        })
+
+        const initialBalance = await web3.eth.getBalance(accounts[0])
+        await lottery
+            .methods
+            .pickWinner()
+            .send({
+                from: accounts[0]
+            })
+        const finalBalance = await web3.eth.getBalance(accounts[0])
+        const difference = finalBalance - initialBalance;
+
+        assert(difference > web3.utils.toWei('1.9', 'ether'))
+        assert(await lottery.methods.getPlayers().call({ from : accounts[0] }))
+        assert(await web3.eth.getBalance(lottery.options.address) == 0)
+    })
 })
