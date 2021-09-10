@@ -1,0 +1,25 @@
+.lottery-loader{
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transform: opacity 0.25 z-index 0.25;
+    flex-direction: column;
+}
+
+.hide-lottery-loader{
+    opacity: 0;
+    z-index: -100;
+}
+
+.lottery-loader-message{
+    margin-top: 1em;
+    color: #4285f4;
+}

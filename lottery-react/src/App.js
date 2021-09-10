@@ -1,7 +1,12 @@
-import React from 'react';
+import React from 'react';   
+import "materialize-css/dist/css/materialize.min.css";
+import "materialize-css/dist/js/materialize.min.js";
 import './App.css';
-import web3 from './web3';
-import lottery from './lottery';
+import web3 from './services/web3.service';
+import lottery from './services/lottery.service';
+import { Button } from 'react-materialize';
+import Loader from './components/loader/Loader'
+import Topbar from './components/topbar/Topbar'
 
 class App extends React.Component {
   state = {
@@ -9,6 +14,7 @@ class App extends React.Component {
       loading : true,
       message : 'Loading...'
     },
+    contract : lottery.options.address,
     manager: '',
     players: [],
     balance: '',
@@ -21,7 +27,10 @@ class App extends React.Component {
     this.setState({ 
       manager: await lottery.methods.manager().call(),
       players: await lottery.methods.getPlayers().call(),
-      balance: await web3.eth.getBalance(lottery.options.address)
+      balance: await web3.eth.getBalance(lottery.options.address),
+      loader: {
+        loading : false
+      }
      });
   }
 
@@ -79,30 +88,34 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <div>
-          <h2>Lottery Contract</h2>
-          <p>This contract is managed by { this.state.manager }</p>
-          <p>There are currenly { this.state.players.length } people playing.</p>
-          <p>To win { web3.utils.fromWei(this.state.balance,'ether') }</p>
-        </div>
-
-        <form onSubmit={this.onEnterToLottery}>
-          <h4>Do you want to try your luck?</h4>
+        <Topbar contract={this.state.contract}/>
+        <div className="container">
           <div>
-            <label> Amount of ether to enter</label>
-            <input
-              value={this.state.value} 
-              onChange={ event => this.setState({ value: event.target.value })}>
-            </input>
+            <h2>Lottery Contract</h2>
+            <p>This contract is managed by { this.state.manager }</p>
+            <p>There are currenly { this.state.players.length } people playing.</p>
+            <p>To win { web3.utils.fromWei(this.state.balance,'ether') }</p>
           </div>
-          <button>Enter</button>
-        </form>
+
+          <form onSubmit={this.onEnterToLottery}>
+            <h4>Do you want to try your luck?</h4>
+            <div>
+              <label> Amount of ether to enter</label>
+              <input
+                value={this.state.value} 
+                onChange={ event => this.setState({ value: event.target.value })}>
+              </input>
+            </div>
+            <Button>Enter</Button>
+          </form>
 
 
-        <form onSubmit={this.onSubmit}>
-          <h4>Ready to pick a winner?</h4>
-          <button onClick={this.onPickWinner}>Pick a winner!</button>
-        </form>
+          <form onSubmit={this.onSubmit}>
+            <h4>Ready to pick a winner?</h4>
+            <Button onClick={this.onPickWinner}>Pick a winner!</Button>
+          </form>
+        </div>        
+        <Loader config={this.state.loader}/>
       </div>
     )
   }
