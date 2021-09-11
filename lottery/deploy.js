@@ -14,19 +14,18 @@ const web3 = new Web3(provider)
 const deploy = async () =>{
     const accounts = await web3.eth.getAccounts();
     
-    console.log('Attempting to deploy to ', accounts)
-    console.log(await web3.eth.getBalance(accounts[0]));
-
+    console.log('Attempting to deploy to ', accounts[0])
+    
     const result = await new web3.eth.Contract(JSON.parse(interface))
         .deploy({
-            data:bytecode,
-            arguments:['HelloWorld!']
+            data:bytecode
         })
         .send({
             gas:'1000000',
+            gasPrice: '1000000000',
             from: accounts[0]
         })
-
+    console.log(interface)
     console.log('Contract got deployed to ', result.options.address)
 }
 

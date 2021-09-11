@@ -2,7 +2,7 @@ import './Loader.css'
 import React from 'react';
 import { Preloader } from 'react-materialize';
 
-class Loader extends React.Component {
+class AppLoader extends React.Component {
 
   render() {
     return (
@@ -18,4 +18,4 @@ class Loader extends React.Component {
   }
 }
 
-export default Loader;
+export default AppLoader;

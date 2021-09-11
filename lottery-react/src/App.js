@@ -5,8 +5,10 @@ import './App.css';
 import web3 from './services/web3.service';
 import lottery from './services/lottery.service';
 import { Button } from 'react-materialize';
-import Loader from './components/loader/Loader'
-import Topbar from './components/topbar/Topbar'
+import AppTopbar from './components/topbar/Topbar'
+import AppLoader from './components/loader/Loader'
+import AppFooter from './components/footer/Footer'
+import ContractInfoSection from './components/contract-info-section/ContractInfoSection';
 
 class App extends React.Component {
   state = {
@@ -23,13 +25,14 @@ class App extends React.Component {
 
   async componentDidMount() {
     // TODO: Check if Metamask is already installed in the browser
+    const lotteryBalance = await web3.eth.getBalance(lottery.options.address);
 
     this.setState({ 
       manager: await lottery.methods.manager().call(),
       players: await lottery.methods.getPlayers().call(),
-      balance: await web3.eth.getBalance(lottery.options.address),
+      balance: web3.utils.fromWei(lotteryBalance, 'ether'),
       loader: {
-        loading : false
+        loading: false
       }
      });
   }
@@ -87,15 +90,10 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <Topbar contract={this.state.contract}/>
-        <div className="container">
-          <div>
-            <h2>Lottery Contract</h2>
-            <p>This contract is managed by { this.state.manager }</p>
-            <p>There are currenly { this.state.players.length } people playing.</p>
-            <p>To win { web3.utils.fromWei(this.state.balance,'ether') }</p>
-          </div>
+      <div className="application-wrapper">
+        <AppTopbar contract={this.state.contract}/>
+        <div className="application-content container">
+          <ContractInfoSection config={this.state}/>
 
           <form onSubmit={this.onEnterToLottery}>
             <h4>Do you want to try your luck?</h4>
@@ -114,8 +112,9 @@ class App extends React.Component {
             <h4>Ready to pick a winner?</h4>
             <Button onClick={this.onPickWinner}>Pick a winner!</Button>
           </form>
-        </div>        
-        <Loader config={this.state.loader}/>
+        </div>
+        <AppLoader config={this.state.loader}/>
+        <AppFooter/>
       </div>
     )
   }

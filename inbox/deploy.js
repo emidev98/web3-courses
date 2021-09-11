@@ -24,6 +24,7 @@ const deploy = async () =>{
         })
         .send({
             gas:'1000000',
+            gasPrice: '1000000',
             from: accounts[0]
         })
 
