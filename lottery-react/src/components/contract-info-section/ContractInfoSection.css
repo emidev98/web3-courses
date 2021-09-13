@@ -1,3 +1,13 @@
+.card{
+    background: var(--main-bg-card-color);
+    
+}
+
+.card-content > div{
+    overflow: auto;
+
+}
+
 .card-header {
     border-bottom: 1px;
     border-bottom-style: solid;
@@ -8,4 +18,31 @@
 .card-header-icon{
     margin-right: 0.5em;
 
+}
+
+.card-custom-link{
+    display: inline-flex;
+    color: inherit;
+    font-weight: bold;
+    align-items: baseline;
+}
+
+.card-custom-link:hover{
+    text-decoration: underline;
+
+}
+
+.card-custom-link-elipsis{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100px;
+    display: inline-block;
+
+}
+
+table {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
 }

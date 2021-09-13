@@ -1,0 +1,20 @@
+.card{
+    background: var(--main-bg-card-color);
+}
+
+.card-header {
+    border-bottom: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgba(255,255,255,0.4);
+    margin-bottom: 1em;
+}
+
+.card-header-icon{
+    margin-right: 0.5em;
+
+}
+
+.form-submit-button{
+    width: 100%;
+    
+}

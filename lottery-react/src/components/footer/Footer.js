@@ -1,8 +1,6 @@
 import './Footer.css'
 import React from 'react';
 import { Footer } from 'react-materialize';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuestion } from '@fortawesome/free-solid-svg-icons';
 
 class AppFooter extends React.Component {
 

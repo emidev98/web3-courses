@@ -1,11 +1,32 @@
+/*https://coolors.co/e63946-f1faee-a8dadc-457b9d-1d3557*/
+:root {
+    --main-bg-color: #F1FAEE;
+    --main-bg-wrapper-color: #E63946;
+    --main-bg-card-color: #1D3557;
+}
+  
+
 .application-wrapper {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background: var(--main-bg-color);
 
 }
 
 .application-content{
     flex-grow: 1;
     
+}
+
+input, label {
+    color : white
+}
+
+.btn{
+    background-color: #457B9D;
+}
+
+.btn:hover{
+    background-color: #5590B4;
 }

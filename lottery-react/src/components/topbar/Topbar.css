@@ -6,3 +6,8 @@
     margin-right: 0.5em;
 
 }
+
+.nav-wrapper{
+    background: var(--main-bg-wrapper-color);
+    
+}

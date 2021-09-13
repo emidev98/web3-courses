@@ -4,11 +4,12 @@ import "materialize-css/dist/js/materialize.min.js";
 import './App.css';
 import web3 from './services/web3.service';
 import lottery from './services/lottery.service';
-import { Button } from 'react-materialize';
+import { Button, Col, Row } from 'react-materialize';
 import AppTopbar from './components/topbar/Topbar'
 import AppLoader from './components/loader/Loader'
 import AppFooter from './components/footer/Footer'
 import ContractInfoSection from './components/contract-info-section/ContractInfoSection';
+import ContractInteractionSection from './components/contract-interaction-section/ContractInteractionSection';
 
 class App extends React.Component {
   state = {
@@ -38,7 +39,7 @@ class App extends React.Component {
   }
 
   onEnterToLottery = async (event) => {
-    event.preventDefault();
+    this.state.value = event;
     const accounts = await web3.eth.getAccounts();
 
     // TODO: Allow the user to chose betewen its different addresses 
@@ -93,25 +94,27 @@ class App extends React.Component {
       <div className="application-wrapper">
         <AppTopbar contract={this.state.contract}/>
         <div className="application-content container">
-          <ContractInfoSection config={this.state}/>
-
-          <form onSubmit={this.onEnterToLottery}>
-            <h4>Do you want to try your luck?</h4>
-            <div>
-              <label> Amount of ether to enter</label>
-              <input
-                value={this.state.value} 
-                onChange={ event => this.setState({ value: event.target.value })}>
-              </input>
-            </div>
-            <Button>Enter</Button>
-          </form>
-
-
-          <form onSubmit={this.onSubmit}>
-            <h4>Ready to pick a winner?</h4>
-            <Button onClick={this.onPickWinner}>Pick a winner!</Button>
-          </form>
+          <Row>
+            <Col
+              l={6}
+              s={12}>
+              <ContractInfoSection config={this.state}/>
+            </Col>
+            <Col
+              l={6}
+              s={12}>
+              <ContractInteractionSection onEnterToLottery={(event)=>this.onEnterToLottery(event)}/>
+            </Col>
+          </Row>
+          <Row>
+            <Col
+              s={12}>
+              <form onSubmit={this.onSubmit}>
+                <h4>Ready to pick a winner?</h4>
+                <Button onClick={this.onPickWinner}>Pick a winner!</Button>
+              </form>
+            </Col>
+          </Row>
         </div>
         <AppLoader config={this.state.loader}/>
         <AppFooter/>

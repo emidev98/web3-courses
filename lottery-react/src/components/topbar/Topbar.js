@@ -2,7 +2,7 @@ import './Topbar.css'
 import React from 'react';
 import { Navbar, NavItem, Icon } from 'react-materialize';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faNetworkWired } from '@fortawesome/free-solid-svg-icons';
+import { faCubes } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from "@fortawesome/free-brands-svg-icons"
 
 class AppTopbar extends React.Component {
@@ -20,7 +20,7 @@ class AppTopbar extends React.Component {
         </NavItem>
         <NavItem href={`https://rinkeby.etherscan.io/address/${this.props.contract}`} target="_blank">
           <span className="topbar-button-text">View on EtherScan</span>
-          <FontAwesomeIcon icon={faNetworkWired} />
+          <FontAwesomeIcon icon={faCubes} />
         </NavItem>
       </Navbar>
     )
