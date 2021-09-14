@@ -1,8 +1,8 @@
-/*https://coolors.co/e63946-f1faee-a8dadc-457b9d-1d3557*/
+/*https://coolors.co/283d3b-197278-edddd4-c44536-772e25*/
 :root {
-    --main-bg-color: #F1FAEE;
-    --main-bg-wrapper-color: #E63946;
-    --main-bg-card-color: #1D3557;
+    --main-bg-color: #EDDDD4;
+    --main-bg-wrapper-color: #C44536;
+    --main-bg-card-color: #197278;
 }
   
 
@@ -24,9 +24,13 @@ input, label {
 }
 
 .btn{
-    background-color: #457B9D;
+    background-color: #C44536;
 }
 
 .btn:hover{
-    background-color: #5590B4;
+    background-color: #bf5a4e;
+}
+
+.row{
+    margin-bottom: 0;
 }

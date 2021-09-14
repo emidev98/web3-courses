@@ -5,13 +5,15 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0,0,0,0.1);
+    background: var(--main-bg-color);
     display: flex;
     justify-content: center;
     align-items: center;
     opacity: 1;
     transform: opacity 0.25 z-index 0.25;
     flex-direction: column;
+    border: 8px var(--main-bg-wrapper-color);
+    border-style: groove;
 }
 
 .hide-lottery-loader{
@@ -21,5 +23,9 @@
 
 .lottery-loader-message{
     margin-top: 1em;
-    color: #4285f4;
+    color: var(--main-bg-card-color);;
+}
+
+.spinner-layer.spinner-blue-only{
+    border-color: var(--main-bg-card-color);
 }

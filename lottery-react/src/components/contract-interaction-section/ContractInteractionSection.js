@@ -31,8 +31,10 @@ class ContractInteractionSection extends React.Component {
       <form onSubmit={this.onEnterToLottery}>
         <div>
           <p>Amount of <FontAwesomeIcon icon={faEthereum} />&nbsp;(ETH)&nbsp; to join the game</p>
-          <input value={this.state.value} 
-              onChange={ event => this.setState({ value: event.target.value })}></input>
+          <input type="number"
+            min="0.1"
+            value={this.state.value} 
+            onChange={ event => this.setState({ value: event.target.value })}></input>
         </div>
         <Button className='form-submit-button'>Participate</Button>
       </form>

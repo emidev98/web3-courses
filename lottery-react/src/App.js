@@ -10,6 +10,7 @@ import AppLoader from './components/loader/Loader'
 import AppFooter from './components/footer/Footer'
 import ContractInfoSection from './components/contract-info-section/ContractInfoSection';
 import ContractInteractionSection from './components/contract-interaction-section/ContractInteractionSection';
+import ContractPickWinnerSection from './components/contract-pick-winner-section/ContractPickWinnerSection';
 
 class App extends React.Component {
   state = {
@@ -19,18 +20,24 @@ class App extends React.Component {
     },
     contract : lottery.options.address,
     manager: '',
+    currentPlayerAccounts: [],
     players: [],
     balance: '',
     value: 0
   };
 
   async componentDidMount() {
+    await this.init();
+  }
+
+  async init(){
     // TODO: Check if Metamask is already installed in the browser
     const lotteryBalance = await web3.eth.getBalance(lottery.options.address);
 
     this.setState({ 
       manager: await lottery.methods.manager().call(),
       players: await lottery.methods.getPlayers().call(),
+      currentPlayerAccounts: await web3.eth.getAccounts(),
       balance: web3.utils.fromWei(lotteryBalance, 'ether'),
       loader: {
         loading: false
@@ -40,9 +47,6 @@ class App extends React.Component {
 
   onEnterToLottery = async (event) => {
     this.state.value = event;
-    const accounts = await web3.eth.getAccounts();
-
-    // TODO: Allow the user to chose betewen its different addresses 
 
     this.setState({
       loader : {
@@ -53,17 +57,15 @@ class App extends React.Component {
 
     try{
       await lottery.methods.enter().send({
-        from: accounts[0],
+        from: this.state.currentPlayerAccounts[0],
         value: web3.utils.toWei(this.state.value, 'ether')
       })
     }
     catch(e){
       console.log(e);
-      // TODO reset state
     }
 
-    // TODO show the success state 
-
+    this.init();
     this.setState({
       loader : {
         loading : false,
@@ -72,9 +74,7 @@ class App extends React.Component {
     });
   }
 
-  onPickWinner = async (event) => {
-    const accounts =  await web3.eth.getAccounts();
-    
+  onPickWinner = async () => {
     this.setState({
       loader : {
         loading : true,
@@ -83,7 +83,7 @@ class App extends React.Component {
     });
 
     await lottery.methods.pickWinner().send({
-      from : accounts[0]
+      from : this.state.currentPlayerAccounts[0]
     })
 
     // TODO display the winner
@@ -104,15 +104,16 @@ class App extends React.Component {
               l={6}
               s={12}>
               <ContractInteractionSection onEnterToLottery={(event)=>this.onEnterToLottery(event)}/>
-            </Col>
-          </Row>
-          <Row>
-            <Col
-              s={12}>
-              <form onSubmit={this.onSubmit}>
-                <h4>Ready to pick a winner?</h4>
-                <Button onClick={this.onPickWinner}>Pick a winner!</Button>
-              </form>
+              {
+                this.state.manager == this.state.currentPlayerAccounts[0] &&
+                <Row>
+                  <Col
+                    s={12}>
+                      <ContractPickWinnerSection 
+                        onPickWinner={()=>this.onPickWinner()}/>
+                  </Col>
+                </Row>
+              }
             </Col>
           </Row>
         </div>
