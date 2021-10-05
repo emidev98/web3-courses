@@ -8,8 +8,7 @@ class ContractPickWinnerSection extends React.Component {
 
   onPickWinner = (event) => {
     event.preventDefault();
-    return;
-    this.props.onPickWinner(this.state.value);
+    this.props.onPickWinner();
   }
 
   render() {
