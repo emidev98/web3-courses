@@ -86,7 +86,12 @@ class App extends React.Component {
       from : this.state.currentPlayerAccounts[0]
     })
 
-    // TODO display the winner
+    this.setState({
+      loader : {
+        loading : false,
+        message : ''
+      }
+    });
   }
 
   render() {
