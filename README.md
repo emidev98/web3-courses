@@ -1,2 +1,1 @@
-# solidity-course
-This is the content from the Ethereum and Solidity course from Udemy
+# No longer used please go to https://github.com/decentryfi/solidity-course if you want to keep updated about the new features
