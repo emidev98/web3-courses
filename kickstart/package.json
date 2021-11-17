@@ -1,0 +1,21 @@
+{
+  "name": "kickstart",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs-extra": "^10.0.0",
+    "ganache-cli": "^6.12.2",
+    "mocha": "^9.1.3",
+    "solc": "^0.4.17",
+    "web3": "^1.6.1"
+  }
+}
