@@ -2,21 +2,21 @@
   "name": "kickstart",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
+    "dev" : "next dev",
     "test": "mocha"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Emilian Harastasan",
+  "license": "MIT",
   "dependencies": {
     "@truffle/hdwallet-provider": "^1.6.0",
     "dotenv": "^10.0.0",
     "fs-extra": "^10.0.0",
     "ganache-cli": "^6.12.2",
     "mocha": "^9.1.3",
+    "next": "^12.0.4",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "solc": "^0.4.17",
     "web3": "^1.6.1"
   }

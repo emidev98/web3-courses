@@ -7,7 +7,7 @@
     "test": "mocha",
     "deploy": "node deploy.js"
   },
-  "author": "",
+  "author": "Emilian Harastasan",
   "license": "MIT",
   "dependencies": {
     "dotenv": "^10.0.0",
