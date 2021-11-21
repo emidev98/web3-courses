@@ -24,7 +24,7 @@ beforeEach(async () =>{
     
     await factory.methods.createCampaign('100')
         .send({ 
-            from: accounts[0], 
+            from: accounts[0],
             gas:'2000000',
             gasPrice: '10000000'
         });
