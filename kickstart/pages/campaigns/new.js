@@ -2,8 +2,8 @@ import React from 'react';
 import AppLayout from '../../components/AppLayout';
 import { Input, Form, Button, Message } from 'semantic-ui-react';
 import { Router } from '../../routes';
-import factory from '../../ethereum/factory';
 import web3 from '../../ethereum/web3';
+import CampaignFactory from '../../ethereum/services/campaign-factory';
 
 
 class CampaignsNew extends React.Component {
@@ -13,7 +13,7 @@ class CampaignsNew extends React.Component {
         loading : false
     };
 
-    onSubit = async (event) => {
+    onSubmit = async (event) => {
         event.preventDefault();
         this.setState({
             errorMessage: '',
@@ -22,7 +22,8 @@ class CampaignsNew extends React.Component {
 
         try {
             const accounts = await web3.eth.getAccounts();
-            await factory.methods
+            const campaignFactory = CampaignFactory.getCampingFactory();
+            await campaignFactory.methods
                 .createCampaign(this.state.minimumContribution)
                 .send({
                     from: accounts[0]
@@ -44,7 +45,7 @@ class CampaignsNew extends React.Component {
         return (
             <AppLayout>
                 <h2>Create a campaign</h2>
-                <Form onSubmit={this.onSubit} error={!!this.state.errorMessage}>
+                <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
                     <Form.Field>
                         <label>Minimum contribution</label>
                         <Input value={this.state.minimumContribution}

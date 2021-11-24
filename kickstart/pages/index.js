@@ -2,18 +2,15 @@ import React from "react";
 import { Card } from "semantic-ui-react";
 import { Link } from "../routes";
 import AppLayout from "../components/AppLayout";
-import factory from "../ethereum/factory";
+import CampaignFactory from "../ethereum/services/campaign-factory";
 
 class CampaignIndex extends React.Component {
 
     static async getInitialProps() {
-        const campaigns = await factory.methods.getDeployedCampaigns().call();
+        const campaignFactory = CampaignFactory.getCampingFactory();
+        const campaigns = await campaignFactory.methods.getDeployedCampaigns().call();
 
         return { campaigns };
-    }
-
-    async componentDidMount() {
-        console.log(this.props.campaigns)
     }
 
     renderCampaigns() {
