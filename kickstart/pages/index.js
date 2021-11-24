@@ -1,7 +1,8 @@
-import React from 'react';
-import { Button, Card } from 'semantic-ui-react';
-import AppLayout from '../components/AppLayout';
-import factory from '../ethereum/factory';
+import React from "react";
+import { Card } from "semantic-ui-react";
+import { Link } from "../routes";
+import AppLayout from "../components/AppLayout";
+import factory from "../ethereum/factory";
 
 class CampaignIndex extends React.Component {
 
@@ -19,7 +20,7 @@ class CampaignIndex extends React.Component {
         const items = this.props.campaigns.map( address => {
             return {
                 header: address,
-                description: <a> View Campaign</a>,
+                description: <Link route={`/campaigns/${address}`}><a>View Campaign</a></Link>,
                 fluid: true
             }
         })

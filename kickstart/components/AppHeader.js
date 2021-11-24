@@ -1,5 +1,6 @@
-import React from 'react';
-import { Icon, Menu } from 'semantic-ui-react';
+import React from "react";
+import { Icon, Menu } from "semantic-ui-react";
+import { Link } from "../routes";
 
 class AppMenu extends React.Component {
 
@@ -7,18 +8,24 @@ class AppMenu extends React.Component {
         return (
             <Menu>
                 <Menu.Menu position="left">
-                    <Menu.Item>DecentryFi Kickstart</Menu.Item>
+                    <Link route="/">
+                        <a className="item">DecentryFi Kickstart</a>
+                    </Link>
                 </Menu.Menu>
 
                 <Menu.Menu position="right">
-                    <Menu.Item>
-                        <Icon name='list'/>
-                        Campaigns
-                    </Menu.Item>
-                    <Menu.Item>
-                        <Icon name='plus'/>
-                        Campaign
-                    </Menu.Item>
+                    <Link route="/">
+                        <a className="item">
+                            <Icon name="list"/>
+                            Campaigns
+                        </a>
+                    </Link>
+                    <Link route="/campaigns/new">
+                        <a className="item">
+                            <Icon name="plus"/>
+                            Campaign
+                        </a>
+                    </Link>
                 </Menu.Menu>
             </Menu>
         );
