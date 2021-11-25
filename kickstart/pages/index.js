@@ -2,7 +2,7 @@ import React from "react";
 import { Card } from "semantic-ui-react";
 import { Link } from "../routes";
 import AppLayout from "../components/AppLayout";
-import CampaignFactory from "../ethereum/services/campaign-factory";
+import CampaignFactory from "../ethereum/services/CampaignFactory";
 
 class CampaignIndex extends React.Component {
 

@@ -3,10 +3,10 @@ import AppLayout from '../../components/AppLayout';
 import { Input, Form, Button, Message } from 'semantic-ui-react';
 import { Router } from '../../routes';
 import web3 from '../../ethereum/web3';
-import CampaignFactory from '../../ethereum/services/campaign-factory';
+import CampaignFactory from '../../ethereum/services/CampaignFactory';
 
 
-class CampaignsNew extends React.Component {
+class NewCampaign extends React.Component {
     state = {
         minimumContribution: '0',
         errorMessage : '',
@@ -24,7 +24,7 @@ class CampaignsNew extends React.Component {
             const accounts = await web3.eth.getAccounts();
             const campaignFactory = CampaignFactory.getCampingFactory();
             await campaignFactory.methods
-                .createCampaign(this.state.minimumContribution)
+                .createCampaign(web3.utils.toWei(this.state.minimumContribution, 'ether'))
                 .send({
                     from: accounts[0]
                 });
@@ -50,7 +50,7 @@ class CampaignsNew extends React.Component {
                         <label>Minimum contribution</label>
                         <Input value={this.state.minimumContribution}
                             onChange={event => this.setState({ minimumContribution: event.target.value })}
-                            label='wei' 
+                            label='ether' 
                             labelPosition='right'
                             placeholder='100' 
                             disabled={this.state.loading}/>
@@ -66,4 +66,4 @@ class CampaignsNew extends React.Component {
 
 }
 
-export default CampaignsNew; 
+export default NewCampaign; 
