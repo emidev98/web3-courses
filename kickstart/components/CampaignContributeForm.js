@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Form, Button, Message } from 'semantic-ui-react';
+import { Input, Form, Button, Message, Icon } from 'semantic-ui-react';
 import web3 from '../ethereum/web3';
 import CampaignService from '../ethereum/services/CampaignService';
 import { Router } from '../routes';
@@ -25,13 +25,14 @@ class CampaignContributeFrom extends React.Component {
             if(campaign?.methods || campaign?.options?.address){
                 campaign = CampaignService.getCamping(this.props.campaign.options.address);
             }
+
             await campaign.methods
                 .contribute()
                 .send({
                     from: accounts[0],
                     value: web3.utils.toWei(this.state.contribution, 'ether')
                 });
-            Router.push(`/campaigns/${this.props.campaign.options.address}`);
+            Router.replaceRoute(`/campaigns/${this.props.campaign.options.address}`);
         }
         catch(e) {
             this.setState({
@@ -58,8 +59,12 @@ class CampaignContributeFrom extends React.Component {
                 </Form.Field>
                 <Message error header='Oops!' content={this.state.errorMessage}></Message>
                 <Button primary 
+                    fluid
                     loading={this.state.loading}
-                    disabled={this.state.loading}>Contribute</Button>
+                    disabled={this.state.loading}>
+                    <Icon name="user plus"/>
+                    Contribute
+                </Button>
             </Form>
         )
     }

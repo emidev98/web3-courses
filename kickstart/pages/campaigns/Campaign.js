@@ -1,9 +1,10 @@
 import React from 'react';
-import { Card, Grid } from 'semantic-ui-react';
+import { Button, Card, Grid, Icon, Segment } from 'semantic-ui-react';
 import AppLayout from '../../components/AppLayout';
 import CampaignContributeFrom from '../../components/CampaignContributeForm';
 import CampaignService from '../../ethereum/services/CampaignService';
 import web3 from '../../ethereum/web3';
+import { Link } from "../../routes";
 
 class Campaign extends React.Component {
     
@@ -29,8 +30,8 @@ class Campaign extends React.Component {
                 overflowWrap: 'break-word'
             }
         },{
-            header: web3.utils.fromWei(minimumContribution, 'ether'),
-            meta: 'Minimum Contribution (ether)',
+            header: web3.utils.fromWei(minimumContribution, 'ether') + ' (ether)',
+            meta: 'Minimum Contribution',
             description: 'Amount of minimum contribution you need to join the campign.',
             style: {
                 overflowWrap: 'break-word'
@@ -44,8 +45,8 @@ class Campaign extends React.Component {
             meta: 'Number of Approvers',
             description: 'Number of people that already donated to this campaign.'
         },{
-            header: web3.utils.fromWei(balance, 'ether'),
-            meta: 'Campaign Balance (ether)',
+            header: web3.utils.fromWei(balance, 'ether') + ' (ether)',
+            meta: 'Campaign Balance',
             description: 'Amount of money that the campaign has available to spend.'
         }];
 
@@ -57,12 +58,22 @@ class Campaign extends React.Component {
             <AppLayout>
                 <h3>Campaign</h3>
                 <Grid>
-                    <Grid.Column mobile={16} tablet={10} computer={12}>
+                    <Grid.Column mobile={16} tablet={9} computer={11}>
                         {this.renderCards()}
                     </Grid.Column>
 
-                    <Grid.Column mobile={16} tablet={6} computer={4}>
-                        <CampaignContributeFrom campaign={this.props.campaign}/>
+                    <Grid.Column mobile={16} tablet={7} computer={5}>
+                        <Segment>
+                            <CampaignContributeFrom campaign={this.props.campaign}/>
+                        </Segment>
+                        <Segment>
+                            <Link route={`/campaigns/${this.props.campaign.options.address}/requests`}>
+                                <Button primary fluid >
+                                    <Icon name="eye"/>
+                                    View requests
+                                </Button>
+                            </Link>
+                        </Segment>
                     </Grid.Column>
                 </Grid>
             </AppLayout>
