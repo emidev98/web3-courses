@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, Grid, Icon, Segment } from 'semantic-ui-react';
+import { Button, Card, Grid, Icon, Menu, Segment } from 'semantic-ui-react';
 import AppLayout from '../../components/AppLayout';
 import CampaignContributeFrom from '../../components/CampaignContributeForm';
 import CampaignService from '../../ethereum/services/CampaignService';
@@ -56,7 +56,25 @@ class Campaign extends React.Component {
     render() {
         return (
             <AppLayout>
-                <h3>Campaign</h3>
+                <Menu borderless={true}
+                    style={{ border: "none", boxShadow: "none" }}>
+                    <Menu.Menu position="left"
+                        style={{display: "flex", alignItems: "center"}}>
+                        <Link route={`/`}>
+                            <Icon style={{ marginBottom: "2px", cursor: "pointer"}}name="arrow left"></Icon>
+                        </Link>
+                        <h3 style={{marginTop: 0, marginLeft: "0.5em"}}>Campaign</h3>
+                    </Menu.Menu>
+
+                    <Menu.Menu position="right">
+                        <Link route={`/campaigns/${this.props.campaign.options.address}/requests`}>
+                            <Button primary fluid >
+                                <Icon name="eye"/>
+                                View requests
+                            </Button>
+                        </Link>
+                    </Menu.Menu>
+                </Menu>
                 <Grid>
                     <Grid.Column mobile={16} tablet={9} computer={11}>
                         {this.renderCards()}
@@ -65,14 +83,6 @@ class Campaign extends React.Component {
                     <Grid.Column mobile={16} tablet={7} computer={5}>
                         <Segment>
                             <CampaignContributeFrom campaign={this.props.campaign}/>
-                        </Segment>
-                        <Segment>
-                            <Link route={`/campaigns/${this.props.campaign.options.address}/requests`}>
-                                <Button primary fluid >
-                                    <Icon name="eye"/>
-                                    View requests
-                                </Button>
-                            </Link>
                         </Segment>
                     </Grid.Column>
                 </Grid>

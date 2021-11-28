@@ -31,9 +31,10 @@ class CampaignService {
 
     static getCampingRequests = async (address) => {
         const campaign = await CampaignService.getCamping(address);
+        const approversCount = await campaign.methods.approversCount().call();
         const requestCount = await campaign.methods.getRequestCount().call();
         const requests = await Promise.all(
-            Array(requestCount)
+            Array(parseInt(requestCount))
                 .fill()
                 .map((request, index) => {
                     return campaign.methods.requests(index).call();
@@ -47,11 +48,28 @@ class CampaignService {
                     value: request[1],
                     recipient: request[2],
                     complete: request[3],
-                    approvalCount: request[4]
+                    approvalCount: request[4],
+                    approversCount: approversCount
                 };
             });
         
         return CampaignService.requests;
+    }
+
+    static approveRequest = async (address, index) => {
+        const accounts = await web3.eth.getAccounts();
+        const campign = await CampaignService.getCamping(address);
+        return campign.methods
+            .approveRequest(index)
+            .send({ from : accounts[0] });
+    }
+
+    static finalizeRequest = async (address, index) => {
+        const accounts = await web3.eth.getAccounts();
+        const campign = await CampaignService.getCamping(address);
+        return campign.methods
+            .finalizeRequest(index)
+            .send({ from : accounts[0] });
     }
 }
 

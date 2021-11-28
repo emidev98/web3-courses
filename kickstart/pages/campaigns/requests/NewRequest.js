@@ -1,9 +1,10 @@
 import React from 'react';
 import AppLayout from '../../../components/AppLayout';
-import { Input, Form, Button, Message } from 'semantic-ui-react';
+import { Input, Form, Button, Message, Menu, Icon } from 'semantic-ui-react';
 import { Router } from '../../../routes';
 import web3 from '../../../ethereum/web3';
 import CampaignService from '../../../ethereum/services/CampaignService';
+import { Link } from "../../../routes";
 
 
 class NewRequest extends React.Component {
@@ -52,8 +53,16 @@ class NewRequest extends React.Component {
     render() {
         return (
             <AppLayout>
-                <h3>Create request for Campaign ({this.props.address})</h3>
-
+                <Menu borderless={true}
+                    style={{ border: "none", boxShadow: "none" }}>
+                    <Menu.Menu position="left"
+                        style={{display: "flex", alignItems: "center"}}>
+                        <Link route={`/campaigns/${this.props.address}/requests`}>
+                            <Icon style={{ marginBottom: "2px", cursor: "pointer"}}name="arrow left"></Icon>
+                        </Link>
+                        <h3 style={{marginTop: 0, marginLeft: "0.5em"}}>Create request for Campaign ({this.props.address})</h3>
+                    </Menu.Menu>
+                </Menu>
                 <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
                     <Form.Field>
                         <label>Description</label>
