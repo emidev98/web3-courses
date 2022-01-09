@@ -1,5 +1,8 @@
 require("@nomiclabs/hardhat-waffle");
+require('dotenv').config()
 
+const PROJECT_ID_RINKEBY = process.env.PROJECT_ID_RINKEBY;
+const PRIVATE_KEY_RINKEBY = process.env.PRIVATE_KEY_RINKEBY;
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
@@ -17,5 +20,11 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  solidity: "0.8.4",
+  solidity: "0.8.7",
+  networks: {
+    rinkeby: {
+      url: `https://rinkeby.infura.io/v3/${PROJECT_ID_RINKEBY}`,
+      accounts: [PRIVATE_KEY_RINKEBY]
+    }
+  }
 };
