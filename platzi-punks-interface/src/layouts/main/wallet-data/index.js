@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import { useCallback, useEffect, useState } from "react";
 import useTruncatedAddress from "../../../hooks/useTruncatedAddress";
-import { connector } from "../../../config";
+import { connector } from "../../../config/web3";
 
 const WalletData = () => {
   const [balance, setBalance] = useState(0);
