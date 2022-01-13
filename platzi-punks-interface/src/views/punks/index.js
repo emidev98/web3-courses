@@ -3,21 +3,85 @@ import PunkCard from "../../components/punk-card";
 import Loading from "../../components/loading";
 import RequestAccess from "../../components/request-access";
 import { usePlatziPunksData } from "../../hooks/usePlatziPunksData"
-import { Grid } from "@chakra-ui/react";
+import { SearchIcon } from "@chakra-ui/icons";
+import { 
+    Grid,
+    InputGroup,
+    InputLeftElement,
+    Input,
+    InputRightElement,
+    Button,
+    FormHelperText,
+    FormControl
+} from "@chakra-ui/react";
+import { useState } from "react";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 const Punks = () => {
-    const { active } = useWeb3React();
-    const { punks, loading } = usePlatziPunksData();
+    const { search } = useLocation();
+    const [ address, setAddress] = useState(
+        new URLSearchParams(search).get("address")
+     );
+    const [ submitted, setSubmitted] = useState(true);
+    const [ isValidAddress, setValidAddress ] = useState(true);
+    const { push } = useHistory();
+    const { active, library } = useWeb3React();
+    const { punks, loading } = usePlatziPunksData(
+        submitted && isValidAddress ? address : null
+    );
+
+    const handleAddressChange = ({ target: {value}}) => {
+        setAddress(value);
+        setSubmitted(false);
+        setValidAddress(false);
+    }
+
+    const submit = (event) => {
+        event.preventDefault();
+
+        if(address) {
+            const isValidAddress = library.utils.isAddress(address);
+            setValidAddress(isValidAddress);
+            setSubmitted(true);
+
+            if(isValidAddress) push(`/punks?address=${address}`)
+        }
+        else {
+            push("/punks");
+        }
+    }
+
     if (!active) return <RequestAccess />
     
     return (
         <>
+            <form onSubmit={submit}>
+                <FormControl>
+                    <InputGroup mb={3}>
+                        <InputLeftElement
+                            pointerEvents="none"
+                            children={<SearchIcon color="gray.300"/>}></InputLeftElement>
+                        <Input isValid={isValidAddress}
+                            value={address ?? ""}
+                            onChange={handleAddressChange}
+                            placeholder="Search by address"/>
+                        <InputRightElement width="5.5rem">
+                            <Button type="submit" h="1.75rem" size="sm">Search</Button>
+                        </InputRightElement>
+                    </InputGroup>
+                    {
+                        submitted && !isValidAddress && <FormHelperText> Invalid Address</FormHelperText>
+                    }
+                </FormControl>
+            </form>
             {
                 loading ? <Loading/> : 
                 <Grid templateColumns={"repeat(auto-fill, minmax(250px, 1fr))"} gap={6}>
                     {
                         punks.map(({name, image, tokenId}) =>
-                            <PunkCard key={tokenId} image={image} name={name}/>
+                        <Link key={tokenId} to={`/punks/${tokenId}`}>
+                            <PunkCard image={image} name={name}/>
+                        </Link>
                         )
                     }
                 </Grid>

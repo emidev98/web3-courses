@@ -61,7 +61,7 @@ const Home = () => {
             .on('error', (error) => {
                 setIsMinting(false);
                 toast({
-                    title: 'failedTRansaction',
+                    title: 'Transaction Failed',
                     description: error.message,
                     status: 'error'
                 });

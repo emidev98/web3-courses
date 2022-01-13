@@ -1,3 +1,4 @@
+import { useWeb3React } from "@web3-react/core";
 import { useCallback, useEffect, useState } from "react";
 import usePlatziPunks from "../usePlatziPunks";
 
@@ -65,7 +66,8 @@ const getPunkData = async (tokenId, platziPunks) => {
     };
 }
 
-const usePlatziPunksData = () => {
+const usePlatziPunksData = (owner = null) => {
+    const { library } = useWeb3React();
     const [punks, setPunks] = useState([]);
     const [loading, setLoading] = useState(true);
     const platziPunks = usePlatziPunks();
@@ -74,16 +76,30 @@ const usePlatziPunksData = () => {
         if(platziPunks) {
             setLoading(true);
 
-            let tokenIds;
-            const totalSupply = await platziPunks.methods.totalSupply().call();
-            tokenIds = new Array(parseInt(totalSupply)).fill().map((_, index) => index);
+            var tokenIds;
+            if(!library.utils.isAddress(owner)){
+                const totalSupply = await platziPunks.methods.totalSupply().call();
+                tokenIds = new Array(parseInt(totalSupply))
+                    .fill()
+                    .map((_, index) => index);
+            }
+            else {
+                const balanceOfOwner = await platziPunks.methods
+                    .balanceOf(owner)
+                    .call();
+
+                const tokenIdsOfOwner = new Array(Number(balanceOfOwner))
+                    .fill()
+                    .map((_, index) => platziPunks.methods.tokenOfOwnerByIndex(owner, index).call());
+                tokenIds = await Promise.all(tokenIdsOfOwner);
+            }
             const punksPromise = tokenIds.map(tokenId => getPunkData(tokenId, platziPunks));
             const punks = await Promise.all(punksPromise);
 
             setPunks(punks);
             setLoading(false);
         }
-    },[platziPunks]);
+    },[platziPunks, owner, library?.utils]);
 
     useEffect(()=>{
         update();
@@ -96,8 +112,27 @@ const usePlatziPunksData = () => {
     }
 }
 
-const usePlatziPunkData = () => {
-    
+const usePlatziPunkData = (tokenId = null) => {
+    const [punk, setPunk] = useState();
+    const [loading, setLoading] = useState(true);
+    const platziPunks = usePlatziPunks();
+
+    const update = useCallback(async ()=>{
+        if(platziPunks && tokenId != null){
+            setLoading(true);
+
+            const punk = await getPunkData(tokenId, platziPunks)
+            setPunk(punk);
+
+            setLoading(false);
+        }
+    }, [platziPunks, tokenId]);
+
+    useEffect(()=>{
+        update();
+    }, [update]);
+
+    return { loading, punk, update }
 }
 
 export {usePlatziPunksData, usePlatziPunkData};
