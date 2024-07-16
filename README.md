@@ -15,3 +15,4 @@ This is a pack of activities done on many different courses, find the table of c
 | platzi-punks-contracts        | Contracts with ERC721 standard |
 | platzi-punks-interface        | NTF(s) gallery frontend |
 | platzi-practical-solidity     | Advanced course on Solidity, contracts composability, chainlink, foundry as the framework... |
+| sol-mint-nft                  | Minting an NFT using anchor framework from Solana |
