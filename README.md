@@ -16,3 +16,4 @@ This is a pack of activities done on many different courses, find the table of c
 | platzi-punks-interface        | NTF(s) gallery frontend |
 | platzi-practical-solidity     | Advanced course on Solidity, contracts composability, chainlink, foundry as the framework... |
 | sol-mint-nft                  | Minting an NFT using anchor framework from Solana |
+| program-derived-addresses     | Solana example of program derived addresses |
